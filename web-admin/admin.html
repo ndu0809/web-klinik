@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - drg Pasri</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Custom scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    
+    /* Animation */
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .notification {
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    /* Loading spinner */
+    .spinner {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 3px solid white;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-900 bg-gray-100 min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-600 shadow-lg sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 flex items-center text-white font-bold text-xl">
+            <i class="fas fa-tooth mr-2"></i>
+            <span class="hidden sm:inline">drg Pasri Admin</span>
+            <span class="sm:hidden">Admin</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-3">
+          <button onclick="refreshData()" class="bg-white/20 hover:bg-white/30 text-white p-2 rounded-lg transition" title="Refresh">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <button id="logoutBtn" class="bg-white/20 hover:bg-white/30 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
+            <i class="fas fa-sign-out-alt mr-2"></i>
+            <span class="hidden sm:inline">Logout</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white rounded-lg shadow p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500 text-xs">Total</p>
+            <p id="statTotal" class="text-2xl font-bold text-gray-800">0</p>
+          </div>
+          <i class="fas fa-users text-blue-500 text-2xl"></i>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500 text-xs">Menunggu</p>
+            <p id="statMenunggu" class="text-2xl font-bold text-yellow-600">0</p>
+          </div>
+          <i class="fas fa-clock text-yellow-500 text-2xl"></i>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500 text-xs">Dikonfirmasi</p>
+            <p id="statDikonfirmasi" class="text-2xl font-bold text-green-600">0</p>
+          </div>
+          <i class="fas fa-check-circle text-green-500 text-2xl"></i>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500 text-xs">Dibatalkan</p>
+            <p id="statDibatalkan" class="text-2xl font-bold text-red-600">0</p>
+          </div>
+          <i class="fas fa-times-circle text-red-500 text-2xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Table Container -->
+    <div class="bg-white rounded-lg shadow-md">
+      <div class="p-4 sm:p-6 border-b border-gray-200">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <h1 class="text-xl sm:text-2xl font-bold text-gray-800">
+            <i class="fas fa-calendar-check mr-2 text-blue-600"></i>
+            Data Reservasi Pasien
+          </h1>
+          <div class="flex items-center space-x-2">
+            <input type="text" id="searchInput" placeholder="Cari nama pasien..." 
+                   class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onclick="searchReservations()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap gap-2 mt-4 bg-gray-100 p-1 rounded-lg">
+          <button class="filter-tab flex-1 min-w-[80px] px-3 py-2 rounded-md text-sm font-medium bg-white text-blue-700 shadow-sm transition" 
+                  data-filter="all" onclick="filterReservations('all')">
+            <i class="fas fa-list mr-1"></i> Semua
+          </button>
+          <button class="filter-tab flex-1 min-w-[80px] px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 transition" 
+                  data-filter="menunggu" onclick="filterReservations('menunggu')">
+            <i class="fas fa-hourglass-half mr-1"></i> Menunggu
+          </button>
+          <button class="filter-tab flex-1 min-w-[80px] px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 transition" 
+                  data-filter="dikonfirmasi" onclick="filterReservations('dikonfirmasi')">
+            <i class="fas fa-check mr-1"></i> Dikonfirmasi
+          </button>
+          <button class="filter-tab flex-1 min-w-[80px] px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 transition" 
+                  data-filter="dibatalkan" onclick="filterReservations('dibatalkan')">
+            <i class="fas fa-times mr-1"></i> Dibatalkan
+          </button>
+        </div>
+      </div>
+      
+      <!-- Table -->
+      <div class="overflow-x-auto custom-scrollbar">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">WhatsApp</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">Jadwal</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="reservationTableBody" class="bg-white divide-y divide-gray-200">
+            <!-- Data akan diisi oleh JavaScript -->
+          </tbody>
+        </table>
+        <div id="noReservationsMessage" class="hidden text-center py-12 text-gray-500">
+          <i class="fas fa-inbox text-5xl mb-4 text-gray-300"></i>
+          <p class="text-lg">Tidak ada data reservasi</p>
+          <p class="text-sm mt-2">Belum ada reservasi yang masuk</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Detail -->
+  <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
+    <div class="relative top-10 sm:top-20 mx-auto p-4 sm:p-5 border w-11/12 sm:w-10/12 md:w-3/4 lg:w-2/3 shadow-xl rounded-lg bg-white">
+      <div class="flex items-center justify-between mb-4 pb-3 border-b">
+        <h3 class="text-xl font-semibold text-gray-900">
+          <i class="fas fa-user-circle mr-2 text-blue-600"></i>
+          Detail Reservasi Pasien
+        </h3>
+        <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-2xl transition">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div id="modalContent" class="text-sm text-gray-700">
+        <!-- Konten detail akan diisi oleh JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="notificationToast" class="fixed top-20 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-xl hidden notification z-50">
+    <div class="flex items-center">
+      <i class="fas fa-check-circle mr-3 text-xl"></i>
+      <div>
+        <p class="font-semibold">Berhasil!</p>
+        <p id="notificationMessage" class="text-sm"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-30 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 flex flex-col items-center">
+      <div class="spinner mb-4"></div>
+      <p class="text-gray-700">Memproses...</p>
+    </div>
+  </div>
+
+  <script>
+    // Initialize
+    let currentFilter = 'all';
+    let reservations = [];
+
+    // Check authentication
+    function checkAuth() {
+      const isLoggedIn = localStorage.getItem('adminLoggedIn');
+      if (isLoggedIn !== 'true') {
+        alert('Anda belum login. Silakan login terlebih dahulu.');
+        window.location.href = 'login.html';
+        return false;
+      }
+      return true;
+    }
+
+    // Load reservations from localStorage
+    function loadReservations() {
+      reservations = JSON.parse(localStorage.getItem('drgPasriReservations') || '[]');
+      return reservations;
+    }
+
+    // Update statistics
+    function updateStats() {
+      const total = reservations.length;
+      const menunggu = reservations.filter(r => (r.status || 'menunggu') === 'menunggu').length;
+      const dikonfirmasi = reservations.filter(r => r.status === 'dikonfirmasi').length;
+      const dibatalkan = reservations.filter(r => r.status === 'dibatalkan').length;
+      
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statMenunggu').textContent = menunggu;
+      document.getElementById('statDikonfirmasi').textContent = dikonfirmasi;
+      document.getElementById('statDibatalkan').textContent = dibatalkan;
+    }
+
+    // Display reservations
+    function displayReservations(filter = 'all', searchTerm = '') {
+      loadReservations();
+      const tableBody = document.getElementById('reservationTableBody');
+      const noDataMessage = document.getElementById('noReservationsMessage');
+      
+      tableBody.innerHTML = '';
+      
+      // Filter data
+      let filteredReservations = filter === 'all' 
+        ? reservations 
+        : reservations.filter(res => (res.status || 'menunggu') === filter);
+      
+      // Search filter
+      if (searchTerm) {
+        filteredReservations = filteredReservations.filter(res => 
+          res.nama.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+      
+      // Sort by timestamp (newest first)
+      filteredReservations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      
+      if (filteredReservations.length === 0) {
+        noDataMessage.classList.remove('hidden');
+        return;
+      } else {
+        noDataMessage.classList.add('hidden');
+      }
+
+      filteredReservations.forEach((res, index) => {
+        const statusConfig = {
+          'menunggu': { color: 'bg-yellow-100 text-yellow-800', icon: 'fa-clock' },
+          'dikonfirmasi': { color: 'bg-green-100 text-green-800', icon: 'fa-check-circle' },
+          'dibatalkan': { color: 'bg-red-100 text-red-800', icon: 'fa-times-circle' },
+          'selesai': { color: 'bg-blue-100 text-blue-800', icon: 'fa-check-double' }
+        };
+        
+        const currentStatus = res.status || 'menunggu';
+        const statusInfo = statusConfig[currentStatus];
+
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-gray-50 transition';
+        row.innerHTML = `
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${index + 1}</td>
+          <td class="px-4 py-3 whitespace-nowrap">
+            <div class="text-sm font-medium text-gray-900">${res.nama}</div>
+            <div class="text-xs text-gray-500 sm:hidden">${res.whatsapp}</div>
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 hidden sm:table-cell">
+            <a href="https://wa.me/${formatWhatsAppNumber(res.whatsapp)}" target="_blank" class="text-green-600 hover:text-green-800">
+              <i class="fab fa-whatsapp mr-1"></i>${res.whatsapp}
+            </a>
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 hidden md:table-cell">
+            <i class="far fa-calendar mr-1"></i>${res.jadwalBooking}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap">
+            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${statusInfo.color}">
+              <i class="fas ${statusInfo.icon} mr-1"></i>
+              ${currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1)}
+            </span>
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm">
+            <div class="flex flex-col sm:flex-row gap-1">
+              <button onclick="showDetail('${res.id}')" class="text-blue-600 hover:text-blue-800 transition" title="Detail">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button onclick="confirmWithWhatsApp('${res.id}', 'dikonfirmasi')" 
+                      class="text-green-600 hover:text-green-800 transition" title="Konfirmasi & Kirim WA">
+                <i class="fas fa-check"></i>
+              </button>
+              <button onclick="confirmWithWhatsApp('${res.id}', 'dibatalkan')" 
+                      class="text-red-600 hover:text-red-800 transition" title="Batalkan & Kirim WA">
+                <i class="fas fa-times"></i>
+              </button>
+              <button onclick="deleteReservation('${res.id}')" 
+                      class="text-gray-600 hover:text-gray-800 transition" title="Hapus">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Format WhatsApp number
+    function formatWhatsAppNumber(number) {
+      let formatted = number.replace(/\D/g, '');
+      if (!formatted.startsWith('62')) {
+        if (formatted.startsWith('0')) {
+          formatted = '62' + formatted.substring(1);
+        } else {
+          formatted = '62' + formatted;
+        }
+      }
+      return formatted;
+    }
+
+    // Create WhatsApp message
+    function createWhatsAppMessage(reservation, status) {
+      const clinicName = "drg Pasri";
+      const statusText = status === 'dikonfirmasi' ? 'DIKONFIRMASI' : 'DIBATALKAN';
+      
+      let message = `🦷 *${clinicName} - KONFIRMASI RESERVASI* 🦷\n\n`;
+      message += `Halo Bapak/Ibu *${reservation.nama}*,\n\n`;
+      message += `Status reservasi Anda telah *${statusText}*\n\n`;
+      message += `📅 Tanggal: ${reservation.jadwalBooking}\n`;
+      message += `📝 Keluhan: ${reservation.keluhan}\n\n`;
+      
+      if (status === 'dikonfirmasi') {
+        message += `✅ Reservasi Anda telah dikonfirmasi.\n`;
+        message += `⏰ Mohon datang 15 menit sebelum jadwal.\n`;
+        message += `📍 Alamat klinik akan dikirimkan melalui WhatsApp.\n\n`;
+      } else {
+        message += `❌ Maaf, reservasi Anda dibatalkan.\n`;
+        message += `Silakan hubungi kami untuk informasi lebih lanjut.\n\n`;
+      }
+      
+      message += `Terima kasih atas kepercayaan Anda.\n`;
+      message += `📞 Hubungi: [Nomor Telepon Klinik]\n`;
+      message += `🌐 Website: [Website Klinik]`;
+      
+      return encodeURIComponent(message);
+    }
+
+    // Confirm with WhatsApp notification
+    function confirmWithWhatsApp(id, newStatus) {
+      const reservation = reservations.find(r => r.id === id);
+      if (!reservation) return;
+      
+      const statusText = newStatus === 'dikonfirmasi' ? 'mengkonfirmasi' : 'membatalkan';
+      
+      if (confirm(`Apakah Anda yakin ingin ${statusText} reservasi ${reservation.nama} dan mengirim notifikasi WhatsApp?`)) {
+        showLoading(true);
+        
+        // Update status
+        const index = reservations.findIndex(r => r.id === id);
+        reservations[index].status = newStatus;
+        localStorage.setItem('drgPasriReservations', JSON.stringify(reservations));
+        
+        // Prepare WhatsApp
+        const whatsappNumber = formatWhatsAppNumber(reservation.whatsapp);
+        const message = createWhatsAppMessage(reservation, newStatus);
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+        
+        // Open WhatsApp
+        setTimeout(() => {
+          window.open(whatsappUrl, '_blank');
+          showLoading(false);
+          showNotification(`Status berhasil diperbarui dan WhatsApp terbuka`);
+          displayReservations(currentFilter);
+          updateStats();
+        }, 500);
+      }
+    }
+
+    // Show detail modal
+    function showDetail(id) {
+      const reservation = reservations.find(r => r.id === id);
+      if (!reservation) return;
+      
+      const modalContent = document.getElementById('modalContent');
+      modalContent.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-3">
+            <div class="bg-gray-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">Nama Lengkap</p>
+              <p class="font-semibold">${reservation.nama}</p>
+            </div>
+            <div class="bg-gray-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">No. WhatsApp</p>
+              <p class="font-semibold">
+                <a href="https://wa.me/${formatWhatsAppNumber(reservation.whatsapp)}" 
+                   target="_blank" class="text-green-600 hover:text-green-800">
+                  <i class="fab fa-whatsapp mr-1"></i>${reservation.whatsapp}
+                </a>
+              </p>
+            </div>
+            <div class="bg-gray-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">Pekerjaan</p>
+              <p class="font-semibold">${reservation.pekerjaan}</p>
+            </div>
+            <div class="bg-gray-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">Tempat, Tanggal Lahir</p>
+              <p class="font-semibold">${reservation.tempatLahir}, ${reservation.tanggalLahir}</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="bg-gray-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">Alamat</p>
+              <p class="font-semibold">${reservation.alamat}</p>
+            </div>
+            <div class="bg-gray-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">Status Pasien</p>
+              <p class="font-semibold">${reservation.statusPasien}</p>
+            </div>
+            <div class="bg-gray-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">Jadwal Booking</p>
+              <p class="font-semibold">${reservation.jadwalBooking}</p>
+            </div>
+            <div class="bg-gray-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">Status Reservasi</p>
+              <p class="font-semibold">${(reservation.status || 'menunggu').toUpperCase()}</p>
+            </div>
+          </div>
+          <div class="md:col-span-2 space-y-3">
+            <div class="bg-gray-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">Keluhan/Layanan</p>
+              <p class="font-semibold">${reservation.keluhan}</p>
+            </div>
+            <div class="bg-gray-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">Pesan Tambahan</p>
+              <p class="font-semibold">${reservation.pesan || '-'}</p>
+            </div>
+            <div class="bg-blue-50 p-3 rounded">
+              <p class="text-xs text-gray-500 mb-1">Waktu Pendaftaran</p>
+              <p class="font-semibold">${new Date(reservation.timestamp).toLocaleString('id-ID')}</p>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('detailModal').classList.add('hidden');
+    }
+
+    // Delete reservation
+    function deleteReservation(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus reservasi ini?')) {
+        reservations = reservations.filter(r => r.id !== id);
+        localStorage.setItem('drgPasriReservations', JSON.stringify(reservations));
+        showNotification('Reservasi berhasil dihapus');
+        displayReservations(currentFilter);
+        updateStats();
+      }
+    }
+
+    // Filter reservations
+    function filterReservations(filter) {
+      currentFilter = filter;
+      
+      // Update tab styles
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        if (tab.dataset.filter === filter) {
+          tab.classList.add('bg-white', 'text-blue-700', 'shadow-sm');
+          tab.classList.remove('text-gray-600');
+        } else {
+          tab.classList.remove('bg-white', 'text-blue-700', 'shadow-sm');
+          tab.classList.add('text-gray-600');
+        }
+      });
+      
+      displayReservations(filter);
+    }
+
+    // Search reservations
+    function searchReservations() {
+      const searchTerm = document.getElementById('searchInput').value;
+      displayReservations(currentFilter, searchTerm);
+    }
+
+    // Refresh data
+    function refreshData() {
+      showLoading(true);
+      setTimeout(() => {
+        displayReservations(currentFilter);
+        updateStats();
+        showLoading(false);
+        showNotification('Data berhasil diperbarui');
+      }, 500);
+    }
+
+    // Show notification
+    function showNotification(message) {
+      const toast = document.getElementById('notificationToast');
+      const notificationMessage = document.getElementById('notificationMessage');
+      
+      notificationMessage.textContent = message;
+      toast.classList.remove('hidden');
+      
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Show/hide loading
+    function showLoading(show) {
+      const overlay = document.getElementById('loadingOverlay');
+      if (show) {
+        overlay.classList.remove('hidden');
+        overlay.classList.add('flex');
+      } else {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+      }
+    }
+
+    // Event listeners
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      if (confirm('Apakah Anda yakin ingin keluar?')) {
+        localStorage.removeItem('adminLoggedIn');
+        window.location.href = 'login.html';
+      }
+    });
+
+    document.getElementById('searchInput').addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') {
+        searchReservations();
+      }
+    });
+
+    // Close modal on outside click
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('detailModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      if (checkAuth()) {
+        loadReservations();
+        displayReservations('all');
+        updateStats();
+      }
+    });
+  </script>
+</body>
+</html>

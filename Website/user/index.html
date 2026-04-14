@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>drg Pasri - Reservasi</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Layanan kesehatan gigi terbaik oleh drg Pasri. Reservasi online mudah dan cepat.">
+  <meta name="keywords" content="dokter gigi, kesehatan gigi, reservasi gigi, drg Pasri">
+  <meta name="author" content="drg Pasri">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="drg Pasri - Reservasi Layanan Kesehatan Gigi">
+  <meta property="og:description" content="Layanan kesehatan gigi terbaik oleh drg Pasri">
+  <meta property="og:image" content="https://example.com/og-image.jpg">
+  <meta property="og:url" content="https://drgpasri.com">
+  <meta property="og:type" content="website">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- AOS Animation -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom CSS -->
+  <style>
+    /* Custom Colors */
+    :root {
+      --primary-light: #e1e7f6;
+      --primary-lighter: #f8f9fe;
+      --primary-blue: #698ae8;
+      --primary-dark: #353ba7;
+      --primary-darker: #2d4286;
+      --success-500: #10b981;
+      --success-600: #059669;
+      --warning-500: #f59e0b;
+      --gray-50: #f9fafb;
+      --gray-600: #4b5563;
+    }
+    
+    /* Custom Gradient Background */
+    .gradient-body {
+      background: linear-gradient(to bottom right, var(--primary-light), var(--primary-lighter), var(--primary-blue));
+    }
+    
+    /* Custom Components */
+    .btn-reservasi {
+      background: linear-gradient(to right, var(--primary-blue), var(--primary-dark));
+      transition: all 0.3s ease;
+    }
+    
+    .btn-reservasi:hover {
+      background: linear-gradient(to right, var(--primary-dark), var(--primary-darker));
+      transform: scale(1.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-map {
+      background: linear-gradient(to right, #4CAF50, #45a049);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-map:hover {
+      background: linear-gradient(to right, #45a049, #3d8b40);
+      transform: scale(1.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      transition: all 0.2s;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: transparent;
+      box-shadow: 0 0 0 2px var(--primary-dark);
+    }
+    
+    /* Custom Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes scaleUp {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    .animate-scale-up {
+      animation: scaleUp 0.3s ease-out;
+    }
+    
+    /* Custom Card Styles */
+    .feature-card {
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Mobile Menu Animation */
+    #mobile-menu {
+      transition: all 0.3s ease;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-blue);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+    
+    /* Success Modal */
+    .modal-backdrop {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hero-text {
+        text-align: center;
+      }
+      
+      .hero-image {
+        margin-top: 2rem;
+      }
+    }
+    
+    /* Icon Size Classes */
+    .icon-size-xs { font-size: 0.75rem; }
+    .icon-size-sm { font-size: 1rem; }
+    .icon-size-md { font-size: 1.5rem; }
+    .icon-size-lg { font-size: 2rem; }
+    .icon-size-xl { font-size: 3rem; }
+    .icon-size-2xl { font-size: 4rem; }
+    .icon-size-3xl { font-size: 5rem; }
+
+    /* Icon Position Classes */
+    .icon-position-center { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+    }
+
+    .icon-position-left { 
+      display: flex; 
+      justify-content: flex-start; 
+      align-items: center; 
+    }
+
+    .icon-position-right { 
+      display: flex; 
+      justify-content: flex-end; 
+      align-items: center; 
+    }
+
+    .icon-position-top { 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: flex-start; 
+      align-items: center; 
+    }
+
+    .icon-position-bottom { 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: flex-end; 
+      align-items: center; 
+    }
+
+    /* Icon Spacing */
+    .icon-spacing-xs { margin: 0.25rem; }
+    .icon-spacing-sm { margin: 0.5rem; }
+    .icon-spacing-md { margin: 1rem; }
+    .icon-spacing-lg { margin: 1.5rem; }
+    .icon-spacing-xl { margin: 2rem; }
+
+    /* Icon Colors */
+    .icon-color-primary { color: var(--primary-blue); }
+    .icon-color-dark { color: var(--primary-dark); }
+    .icon-color-light { color: var(--primary-light); }
+    .icon-color-success { color: var(--success-500); }
+    .icon-color-warning { color: var(--warning-500); }
+    .icon-color-white { color: white; }
+    .icon-color-gray { color: #6b7280; }
+  </style>
+</head>
+<body class="font-sans text-gray-900 gradient-body">
+
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-lg border border-white/20 shadow-lg" data-aos="fade-down" data-aos-duration="800">
+    <header class="flex justify-between items-center px-6 md:px-20 py-6">
+      <!-- Logo -->
+      <div class="flex items-center text-[#353ba7] font-bold text-xl">
+        <div class="icon-position-center icon-spacing-sm icon-size-md icon-color-primary">
+          <i class="fas fa-star"></i>
+        </div>
+        <span class="ml-2 text-gray-900">drg Pasri</span>
+      </div>
+
+      <!-- Desktop Menu -->
+      <ul class="hidden md:flex space-x-10 ml-20 font-medium">
+        <li class="flex items-center">
+          <i class="fas fa-home icon-size-sm icon-color-primary icon-spacing-sm"></i>
+          <a href="#Home" class="hover:text-[#353ba7] transition-colors">Home</a>
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-clinic-medical icon-size-sm icon-color-primary icon-spacing-sm"></i>
+          <a href="#Clinic" class="hover:text-[#353ba7] transition-colors">Klinik</a>
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-info-circle icon-size-sm icon-color-primary icon-spacing-sm"></i>
+          <a href="#About" class="hover:text-[#353ba7] transition-colors">About</a>
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-cogs icon-size-sm icon-color-primary icon-spacing-sm"></i>
+          <a href="#Features" class="hover:text-[#353ba7] transition-colors">Service</a>
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-envelope icon-size-sm icon-color-primary icon-spacing-sm"></i>
+          <a href="#Contact" class="hover:text-[#353ba7] transition-colors">Contact</a>
+        </li>
+      </ul>
+
+      <button class="md:hidden text-2xl" id="menu-btn" aria-label="Toggle mobile menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <ul id="mobile-menu" class="hidden flex-col space-y-4 px-6 pb-6 font-medium bg-white/80 backdrop-blur-md border-t">
+      <li class="flex items-center">
+        <i class="fas fa-home icon-size-sm icon-color-primary icon-spacing-sm"></i>
+        <a href="#Home" class="hover:text-[#353ba7] transition-colors">Home</a>
+      </li>
+      <li class="flex items-center">
+        <i class="fas fa-clinic-medical icon-size-sm icon-color-primary icon-spacing-sm"></i>
+        <a href="#Clinic" class="hover:text-[#353ba7] transition-colors">Clinic</a>
+      </li>
+      <li class="flex items-center">
+        <i class="fas fa-info-circle icon-size-sm icon-color-primary icon-spacing-sm"></i>
+        <a href="#About" class="hover:text-[#353ba7] transition-colors">About</a>
+      </li>
+      <li class="flex items-center">
+        <i class="fas fa-cogs icon-size-sm icon-color-primary icon-spacing-sm"></i>
+        <a href="#Features" class="hover:text-[#353ba7] transition-colors">Service</a>
+      </li>
+      <li class="flex items-center">
+        <i class="fas fa-envelope icon-size-sm icon-color-primary icon-spacing-sm"></i>
+        <a href="#Contact" class="hover:text-[#353ba7] transition-colors">Contact</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="Home" class="flex flex-col md:flex-row justify-between items-center px-6 md:px-20 py-16 space-y-10 md:space-y-0">
+    <!-- Left -->
+    <div class="max-w-xl hero-text" data-aos="fade-right" data-aos-duration="1000">
+      <div class="flex items-center mb-5">
+        <div class="icon-position-center icon-spacing-sm icon-size-md icon-color-primary bg-[#e1e7f6] border border-[#698ae8]/40 px-4 py-1 rounded-full">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <span class="ml-2 text-[#353ba7] font-semibold text-sm">Now Available</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-6">
+        <span class="bg-gradient-to-r from-[#698ae8] via-[#353ba7] to-[#2d4286] bg-clip-text text-transparent">Senyum Bebas Bermasalah? drg Pasri Ahlinya!</span><br>
+         Produk & Layanan Terpercaya untuk Anda💡
+      </h1>
+      <p class="text-base md:text-lg text-gray-600 mb-8">
+        Senyum dari gigi sehat anda adalah prioritas kami.
+        <br>Jadwal Klinik: Senin-Sabtu (16.30 WIB)
+      </p>
+      <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 mb-6">
+        <a href="#Contact" class="btn-reservasi px-6 py-3 rounded-lg text-white font-semibold text-center icon-position-center">
+          <i class="fas fa-calendar-check icon-spacing-sm"></i>
+          Lakukan Reservasi
+        </a>
+      </div>
+      <div class="flex items-center text-gray-600 text-sm">
+        <div class="icon-position-center icon-spacing-sm icon-size-md icon-color-warning">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <span class="ml-2">4.9/5 dari 2,341 reviews | Dipercaya oleh 500 orang</span>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="relative hero-image" data-aos="fade-left" data-aos-duration="1000">
+      <div class="transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl relative">
+        <img src="1st.jpg" alt="Demo Image" class="w-full max-w-sm md:w-[460px] rounded-2xl shadow-xl">
+        <div class="absolute -top-6 -right-4 bg-white shadow-lg rounded-xl px-4 py-2 text-sm font-semibold text-green-700 flex items-center gap-2">
+          <div class="icon-position-center icon-size-xs icon-color-success">
+            <i class="fas fa-circle"></i>
+          </div>
+          <div>
+            Task Completed <br><span class="text-gray-500 text-xs font-normal">2 min lalu</span>
+          </div>
+        </div>
+        <div class="absolute -bottom-6 left-6 bg-white shadow-lg rounded-xl px-4 py-2 text-sm font-semibold text-[#353ba7] flex items-center gap-2">
+          <div class="icon-position-center icon-size-xs icon-color-primary">
+            <i class="fas fa-circle"></i>
+          </div>
+          <div>
+            +23 New Members <br><span class="text-gray-500 text-xs font-normal">Minggu ini</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clinic Profile Section -->
+  <section id="Clinic" class="px-6 md:px-20 py-20 bg-white" data-aos="fade-up" data-aos-duration="1000">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <div class="inline-block bg-[#e1e7f6] text-[#353ba7] border border-[#698ae8]/40 px-5 py-1 rounded-full font-semibold text-sm mb-6 icon-position-center" data-aos="fade-up">
+          <i class="fas fa-clinic-medical icon-spacing-sm"></i>
+          Profil Klinik
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-7" data-aos="fade-up" data-aos-delay="200">
+          Kenali <span class="bg-gradient-to-r from-[#698ae8] via-[#353ba7] to-[#2d4286] bg-clip-text text-transparent">Klinik Kami</span>
+        </h2>
+        <p class="text-gray-600 max-w-20xl mx-auto" data-aos="fade-up" data-aos-delay="400">
+          Klinik Drg Pasri ini bertujuan untuk memberikan perawatan kesehatan gigi, seperti pencegahan karies, pengobatan gusi, dan edukasi oral hygiene, serta pelayanan ramah dan nyaman untuk pasien. 
+          <br><br>Klinik ini berlokasikan di Jl. Pacuan, Kubu Gadang (setelah pasar ibu), Kec. Payakumbuh Utara, Kota Payakumbuh, Sumatera Barat yang mulai beroperasi sejak 2016, dengan jadwal buka pada hari senin-sabtu pukul 16.30.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Clinic Image -->
+        <div class="relative" data-aos="fade-left" data-aos-duration="1000">
+          <img src="2nd.jpg" alt="Klinik drg Pasri" class="rounded-2xl shadow-xl w-full">
+          <div class="absolute -bottom-6 -right-6 bg-white shadow-lg rounded-xl px-4 py-2 text-sm font-semibold text-[#353ba7] icon-position-center">
+            <i class="fas fa-award icon-spacing-sm"></i>
+            Tersertifikasi Kementerian Kesehatan
+          </div>
+        </div>
+
+        <!-- Clinic Info -->
+        <div data-aos="fade-right" data-aos-duration="1000">
+          <h3 class="text-2xl font-bold mb-6 text-[#353ba7]">Klinik Gigi drg Pasri</h3>
+          
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start">
+              <div class="icon-position-center icon-spacing-md icon-size-lg icon-color-primary">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Lokasi Strategis</h4>
+                <p class="text-gray-600">Jl. Kesehatan No. 123, Jakarta Selatan. Mudah diakses dengan transportasi umum dan tersedia parkir luas.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="icon-position-center icon-spacing-md icon-size-lg icon-color-primary">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Jam Operasional</h4>
+                <p class="text-gray-600">Senin - Sabtu: 09.00 - 20.00<br>Minggu & Hari Libur: 10.00 - 18.00</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="icon-position-center icon-spacing-md icon-size-lg icon-color-primary">
+                <i class="fas fa-tools"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Peralatan Modern</h4>
+                <p class="text-gray-600">Menggunakan peralatan gigi terkini dengan teknologi digital untuk hasil yang akurat dan nyaman.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="icon-position-center icon-spacing-md icon-size-lg icon-color-primary">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Standar Keamanan Tinggi</h4>
+                <p class="text-gray-600">Protokol sterilisasi ketat sesuai standar internasional untuk keamanan pasien.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Buttons Section -->
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="https://maps.google.com/?q=Jl.+Kesehatan+No.+123,+Jakarta+Selatan" target="_blank" class="btn-map px-6 py-3 rounded-lg text-white font-semibold text-center icon-position-center">
+              <i class="fas fa-map-marked-alt icon-spacing-sm"></i>
+              Lihat di Peta
+            </a>
+            <a href="tel:6283197242550" class="btn-reservasi px-6 py-3 rounded-lg text-white font-semibold text-center icon-position-center">
+              <i class="fas fa-phone-alt icon-spacing-sm"></i>
+              Hubungi Kami
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="About" class="px-6 md:px-20 py-20 bg-gray-50 mt-16" data-aos="fade-up" data-aos-duration="1000">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <!-- Text & Icons -->
+      <div data-aos="fade-right" data-aos-duration="1000">
+        <div class="flex items-center mb-5">
+          <div class="icon-position-center icon-spacing-sm icon-size-md icon-color-primary bg-[#e1e7f6] border border-[#698ae8]/40 px-4 py-1 rounded-full">
+            <i class="fas fa-info-circle"></i>
+          </div>
+          <span class="ml-2 text-[#353ba7] font-semibold text-sm">About Us</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          Siapa <span class="bg-gradient-to-r from-[#698ae8] via-[#353ba7] to-[#2d4286] bg-clip-text text-transparent">drg Pasri?</span>
+        </h2>
+        
+        <div class="space-y-6">
+          <!-- Ikon Gigi -->
+          <div class="flex items-start">
+            <div class="icon-position-top icon-spacing-md icon-size-xl icon-color-primary">
+              <i class="fas fa-tooth"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold mb-2">Pelayanan Gigi Terbaik</h3>
+              <p class="text-gray-600">drg Pasri hadir untuk membantu Anda mendapatkan pelayanan kesehatan gigi terbaik dengan teknologi modern.</p>
+            </div>
+          </div>
+          
+          <!-- Ikon Dokter -->
+          <div class="flex items-start">
+            <div class="icon-position-top icon-spacing-md icon-size-xl icon-color-primary">
+              <i class="fas fa-user-md"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold mb-2">Tim Profesional</h3>
+              <p class="text-gray-600">Dokter gigi berpengalaman dan staf profesional siap memberikan pelayanan terbaik untuk Anda dan keluarga.</p>
+            </div>
+          </div>
+          
+          <!-- Ikon Love -->
+          <div class="flex items-start">
+            <div class="icon-position-top icon-spacing-md icon-size-xl icon-color-primary">
+              <i class="fas fa-heart"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold mb-2">Senyum Sehat</h3>
+              <p class="text-gray-600">Kami percaya senyum yang sehat adalah kunci kesehatan tubuh secara keseluruhan.</p>
+            </div>
+          </div>
+        </div>
+        
+        <a href="#" class="inline-block mt-8 px-6 py-3 rounded-lg bg-gradient-to-r from-[#698ae8] to-[#353ba7] text-white font-semibold shadow-md hover:scale-105 transition icon-position-center">
+          <i class="fas fa-arrow-right icon-spacing-sm"></i>
+          Pelajari Lebih Lanjut
+        </a>
+      </div>
+      
+      <!-- Gambar -->
+      <div class="transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl relative" data-aos="fade-left" data-aos-duration="1000">
+        <img src="3rd.jpg" alt="Team collaboration" class="rounded-2xl shadow-xl w-full">
+        <div class="absolute -top-6 -right-6 bg-white shadow-lg rounded-xl px-4 py-2 text-sm font-semibold text-[#353ba7] icon-position-center">
+          <i class="fas fa-star icon-spacing-sm"></i>
+          <span>Sejak 2025</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="Features" class="px-6 md:px-20 py-16 text-center">
+    <div class="inline-block bg-[#e1e7f6] text-[#353ba7] border border-[#698ae8]/40 px-5 py-1 rounded-full font-semibold text-sm mb-6 icon-position-center" data-aos="fade-up">
+      <i class="fas fa-cogs icon-spacing-sm"></i>
+      Features
+    </div>
+    <h2 class="text-3xl md:text-4xl font-bold mb-4" data-aos="fade-up" data-aos-delay="200">
+      Everything you <span class="bg-gradient-to-r from-[#698ae8] to-[#2d4286] bg-clip-text text-transparent">need to succeed</span>
+    </h2>
+    <p class="text-gray-600 max-w-2xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="400">
+      Fitur-fitur canggih yang dirancang untuk menyederhanakan alur kerja dan meningkatkan produktivitas Anda.
+      Rasakan masa depan kolaborasi tim.
+    </p>
+  </section>
+
+  <!-- Features Cards -->
+  <section class="px-6 md:px-20 pb-20">
+    <!-- Grid 1 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8" data-aos="zoom-in" data-aos-duration="500">
+      <!-- Feature 1 -->
+      <div class="feature-card bg-white rounded-2xl shadow-md p-6 text-left">
+        <div class="icon-position-center icon-spacing-md icon-size-lg icon-color-white bg-gradient-to-r from-orange-500 to-orange-300 rounded-xl w-12 h-12 mb-4">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">Reservasi Cepat</h3>
+        <p class="text-gray-600 text-sm">Lakukan reservasi dengan cepat dan mudah tanpa perlu menunggu lama. Sistem kami akan memproses permintaan Anda secara otomatis.</p>
+      </div>
+      <!-- Feature 2 -->
+      <div class="feature-card bg-white rounded-2xl shadow-md p-6 text-left">
+        <div class="icon-position-center icon-spacing-md icon-size-lg icon-color-white bg-gradient-to-r from-green-400 to-cyan-500 rounded-xl w-12 h-12 mb-4">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">Data Terlindungi</h3>
+        <p class="text-gray-600 text-sm">Keamanan data Anda adalah prioritas kami. Semua informasi pribadi akan dienkripsi dan disimpan dengan aman.</p>
+      </div>
+      <!-- Feature 3 -->
+      <div class="feature-card bg-white rounded-2xl shadow-md p-6 text-left">
+        <div class="icon-position-center icon-spacing-md icon-size-lg icon-color-white bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl w-12 h-12 mb-4">
+          <i class="fas fa-bell"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">Notifikasi Otomatis</h3>
+        <p class="text-gray-600 text-sm">Dapatkan notifikasi otomatis tentang jadwal reservasi Anda melalui WhatsApp untuk kemudahan dan kenyamanan.</p>
+      </div>
+    </div>
+
+    <!-- Grid 2 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12" data-aos="zoom-in" data-aos-duration="500">
+      <!-- Feature 4 -->
+      <div class="feature-card bg-white rounded-2xl shadow-md p-6 text-left">
+        <div class="icon-position-center icon-spacing-md icon-size-lg icon-color-white bg-gradient-to-r from-sky-400 to-blue-500 rounded-xl w-12 h-12 mb-4">
+          <i class="fas fa-user-md"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">Tim Profesional</h3>
+        <p class="text-gray-600 text-sm">Dokter gigi berpengalaman dan staf profesional siap memberikan pelayanan terbaik untuk Anda.</p>
+      </div>
+      <!-- Feature 5 -->
+      <div class="feature-card bg-white rounded-2xl shadow-md p-6 text-left">
+        <div class="icon-position-center icon-spacing-md icon-size-lg icon-color-white bg-gradient-to-r from-purple-400 to-violet-600 rounded-xl w-12 h-12 mb-4">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">Mobile Friendly</h3>
+        <p class="text-gray-600 text-sm">Akses layanan kami dari mana saja dengan aplikasi seluler yang responsif dan mudah digunakan.</p>
+      </div>
+      <!-- Feature 6 -->
+      <div class="feature-card bg-white rounded-2xl shadow-md p-6 text-left">
+        <div class="icon-position-center icon-spacing-md icon-size-lg icon-color-white bg-gradient-to-r from-green-400 to-emerald-600 rounded-xl w-12 h-12 mb-4">
+          <i class="fas fa-globe"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">Layanan Lengkap</h3>
+        <p class="text-gray-600 text-sm">Berbagai layanan kesehatan gigi tersedia untuk memenuhi semua kebutuhan perawatan gigi Anda.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="Contact" class="px-6 md:px-20 py-20 bg-gray-50" data-aos="fade-up" data-aos-duration="1000">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <div class="inline-block bg-[#e1e7f6] text-[#353ba7] border border-[#698ae8]/40 px-5 py-1 rounded-full font-semibold text-sm mb-6 icon-position-center">
+          <i class="fas fa-phone-alt icon-spacing-sm"></i>
+          Lakukan Reservasi
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          Hubungi Kami untuk <span class="bg-gradient-to-r from-[#698ae8] via-[#353ba7] to-[#2d4286] bg-clip-text text-transparent">Reservasi</span>
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Isi formulir di bawah ini untuk melakukan reservasi. Data akan dikirim langsung ke WhatsApp kami untuk diproses lebih lanjut.
+        </p>
+      </div>
+
+      <form id="reservationForm" class="bg-white rounded-2xl shadow-xl p-8 md:p-12 space-y-6">
+        <!-- Nama -->
+        <div>
+          <label for="nama" class="block text-sm font-semibold text-gray-700 mb-2 icon-position-left">
+            <i class="fas fa-user icon-size-sm icon-color-primary icon-spacing-sm"></i>
+            Nama <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="nama" required class="form-input" placeholder="Masukkan nama lengkap Anda">
+        </div>
+
+        <!-- No WhatsApp -->
+        <div>
+          <label for="whatsapp" class="block text-sm font-semibold text-gray-700 mb-2 icon-position-left">
+            <i class="fab fa-whatsapp icon-size-sm icon-color-primary icon-spacing-sm"></i>
+            No WhatsApp <span class="text-red-500">*</span>
+          </label>
+          <input type="tel" id="whatsapp" required class="form-input" placeholder="Contoh: 081234567890">
+        </div>
+
+        <!-- Pekerjaan -->
+        <div>
+          <label for="pekerjaan" class="block text-sm font-semibold text-gray-700 mb-2 icon-position-left">
+            <i class="fas fa-briefcase icon-size-sm icon-color-primary icon-spacing-sm"></i>
+            Pekerjaan <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="pekerjaan" required class="form-input" placeholder="Masukkan pekerjaan Anda">
+        </div>
+
+        <!-- Tempat Lahir -->
+        <div>
+          <label for="tempatLahir" class="block text-sm font-semibold text-gray-700 mb-2 icon-position-left">
+            <i class="fas fa-map-marker-alt icon-size-sm icon-color-primary icon-spacing-sm"></i>
+            Tempat Lahir <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="tempatLahir" required class="form-input" placeholder="Masukkan tempat lahir Anda">
+        </div>
+
+        <!-- Tanggal Lahir -->
+        <div>
+          <label for="tanggalLahir" class="block text-sm font-semibold text-gray-700 mb-2 icon-position-left">
+            <i class="fas fa-calendar-alt icon-size-sm icon-color-primary icon-spacing-sm"></i>
+            Tanggal Lahir <span class="text-red-500">*</span> (mm/dd/yyyy)
+          </label>
+          <input type="date" id="tanggalLahir" required class="form-input">
+        </div>
+
+        <!-- Alamat -->
+        <div>
+          <label for="alamat" class="block text-sm font-semibold text-gray-700 mb-2 icon-position-left">
+            <i class="fas fa-home icon-size-sm icon-color-primary icon-spacing-sm"></i>
+            Alamat <span class="text-red-500">*</span>
+          </label>
+          <textarea id="alamat" required rows="3" class="form-input" placeholder="Masukkan alamat lengkap Anda"></textarea>
+        </div>
+
+        <!-- Anda Adalah -->
+        <div>
+          <label for="statusPasien" class="block text-sm font-semibold text-gray-700 mb-2 icon-position-left">
+            <i class="fas fa-user-check icon-size-sm icon-color-primary icon-spacing-sm"></i>
+            Anda Adalah <span class="text-red-500">*</span>
+          </label>
+          <select id="statusPasien" required class="form-input">
+            <option value="">Pilih opsi</option>
+            <option value="pasien lama">Pasien Lama</option>
+            <option value="pasien baru">Pasien Baru</option>
+          </select>
+        </div>
+
+        <!-- Jadwal Booking -->
+        <div>
+          <label for="jadwalBooking" class="block text-sm font-semibold text-gray-700 mb-2 icon-position-left">
+            <i class="fas fa-calendar-check icon-size-sm icon-color-primary icon-spacing-sm"></i>
+            Jadwal Booking <span class="text-red-500">*</span> (mm/dd/yyyy)
+          </label>
+          <input type="date" id="jadwalBooking" required class="form-input">
+        </div>
+
+        <!-- Keluhan / Layanan yang Dibutuhkan -->
+        <div>
+          <label for="keluhan" class="block text-sm font-semibold text-gray-700 mb-2 icon-position-left">
+            <i class="fas fa-notes-medical icon-size-sm icon-color-primary icon-spacing-sm"></i>
+            Keluhan / Layanan yang Dibutuhkan <span class="text-red-500">*</span>
+          </label>
+          <textarea id="keluhan" required rows="4" class="form-input" placeholder="Jelaskan keluhan atau layanan yang Anda butuhkan"></textarea>
+        </div>
+
+        <!-- Pesan (Opsional) -->
+        <div>
+          <label for="pesan" class="block text-sm font-semibold text-gray-700 mb-2 icon-position-left">
+            <i class="fas fa-comment-alt icon-size-sm icon-color-primary icon-spacing-sm"></i>
+            Pesan (Opsional)
+          </label>
+          <textarea id="pesan" rows="3" class="form-input" placeholder="Pesan tambahan (jika ada)"></textarea>
+        </div>
+
+        <!-- Tombol Submit -->
+        <div class="pt-4">
+          <button type="submit" class="btn-reservasi w-full px-6 py-3 rounded-lg text-white font-semibold text-center icon-position-center">
+            <i class="fab fa-whatsapp icon-spacing-sm"></i>
+            Kirim Reservasi ke WhatsApp
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-8 max-w-md mx-auto text-center transform transition-all">
+      <div class="icon-position-center icon-spacing-md icon-size-2xl icon-color-success bg-green-100 rounded-full w-16 h-16 mx-auto mb-4">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h3 class="text-xl font-bold mb-2">Terima Kasih!</h3>
+      <p class="text-gray-600 mb-6">Anda akan diarahkan ke WhatsApp untuk mengirim reservasi Anda. Silakan lengkapi pengiriman pesan di sana.</p>
+      <button id="closeModal" class="px-6 py-2 bg-[#353ba7] text-white rounded-lg hover:bg-[#2d4286] transition icon-position-center">
+        <i class="fas fa-check icon-spacing-sm"></i>
+        OK
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-[#2d4286] via-[#353ba7] to-[#698ae8] text-gray-200">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 px-6 md:px-10 py-12">
+      <!-- Logo & About -->
+      <div class="mx-auto md:col-span-2">
+        <div class="flex items-center mb-4">
+          <div class="icon-position-center icon-spacing-sm icon-size-md icon-color-white bg-[#698ae8] p-2 rounded-lg">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <span class="ml-2 text-xl font-bold text-white">drg Pasri</span>
+        </div>
+        <p class="text-gray-300 mb-4">Ubah alur kerja Anda dengan platform bertenaga AI kami. Dirancang untuk tim modern yang menuntut keunggulan.</p>
+      </div>
+
+      <!-- Product -->
+      <div class="mx-auto">
+        <h3 class="font-semibold text-white mb-4 icon-position-left">
+          <i class="fas fa-cogs icon-size-sm icon-color-white icon-spacing-sm"></i>
+          Service
+        </h3>
+        <ul class="space-y-2">
+          <li class="flex items-center">
+            <i class="fas fa-home icon-size-sm icon-color-white icon-spacing-sm"></i>
+            <a href="#Home" class="hover:text-white transition-colors">Home</a>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-clinic-medical icon-size-sm icon-color-white icon-spacing-sm"></i>
+            <a href="#Clinic" class="hover:text-white transition-colors">Klinik</a>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-info-circle icon-size-sm icon-color-white icon-spacing-sm"></i>
+            <a href="#About" class="hover:text-white transition-colors">About</a>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-cogs icon-size-sm icon-color-white icon-spacing-sm"></i>
+            <a href="#Features" class="hover:text-white transition-colors">Service</a>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-envelope icon-size-sm icon-color-white icon-spacing-sm"></i>
+            <a href="#Contact" class="hover:text-white transition-colors">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="mx-auto">
+        <h3 class="font-semibold text-white mb-4 icon-position-left">
+          <i class="fas fa-address-book icon-size-sm icon-color-white icon-spacing-sm"></i>
+          Contact
+        </h3>
+        <ul class="space-y-2">
+          <li class="flex items-center">
+            <i class="fab fa-whatsapp icon-size-sm icon-color-white icon-spacing-sm"></i>
+            <a href="tel:6283197242550" class="hover:text-white transition-colors">WhatsApp: 6283197242550</a>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-envelope icon-size-sm icon-color-white icon-spacing-sm"></i>
+            <a href="mailto:info@drgpasri.com" class="hover:text-white transition-colors">Email: info@drgpasri.com</a>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-map-marker-alt icon-size-sm icon-color-white icon-spacing-sm"></i>
+            <a href="https://maps.google.com/?q=Jl.+Kesehatan+No.+123,+Jakarta+Selatan" target="_blank" class="hover:text-white transition-colors">Alamat: Jakarta, Indonesia</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-[#e1e7f6]/20 py-6 text-center text-gray-300 text-sm icon-position-center">
+      <i class="fas fa-copyright icon-size-sm icon-spacing-sm"></i>
+      2025 drg Pasri. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Initialize AOS
+    AOS.init();
+
+    // Mobile Menu Toggle
+    document.getElementById("menu-btn").addEventListener("click", () => {
+      document.getElementById("mobile-menu").classList.toggle("hidden");
+    });
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll("#mobile-menu a").forEach(link => {
+      link.addEventListener("click", () => {
+        document.getElementById("mobile-menu").classList.add("hidden");
+      });
+    });
+
+    // Modal elements
+    const successModal = document.getElementById("successModal");
+    const closeModalBtn = document.getElementById("closeModal");
+
+    // Close modal when clicking the close button
+    closeModalBtn.addEventListener("click", () => {
+      successModal.classList.add("hidden");
+      successModal.classList.remove("flex");
+    });
+
+    // Form validation
+    function validateForm() {
+      const nama = document.getElementById("nama").value.trim();
+      const whatsapp = document.getElementById("whatsapp").value.trim();
+      const pekerjaan = document.getElementById("pekerjaan").value.trim();
+      const tempatLahir = document.getElementById("tempatLahir").value.trim();
+      const tanggalLahir = document.getElementById("tanggalLahir").value;
+      const alamat = document.getElementById("alamat").value.trim();
+      const statusPasien = document.getElementById("statusPasien").value;
+      const jadwalBooking = document.getElementById("jadwalBooking").value;
+      const keluhan = document.getElementById("keluhan").value.trim();
+
+      // Check if all required fields are filled
+      if (!nama || !whatsapp || !pekerjaan || !tempatLahir || !tanggalLahir || !alamat || !statusPasien || !jadwalBooking || !keluhan) {
+        alert("Mohon isi semua field wajib (*)");
+        return false;
+      }
+
+      // Validate WhatsApp number format
+      const whatsappRegex = /^(0|62)[0-9]+$/;
+      if (!whatsappRegex.test(whatsapp)) {
+        alert("Format nomor WhatsApp tidak valid. Gunakan format: 081234567890 atau 6281234567890");
+        return false;
+      }
+
+      // Validate booking date (should be today or later)
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const bookingDate = new Date(jadwalBooking);
+      if (bookingDate < today) {
+        alert("Jadwal booking tidak boleh kurang dari hari ini");
+        return false;
+      }
+
+      return true;
+    }
+
+    // Form Submission to WhatsApp
+    document.getElementById("reservationForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Validate form
+      if (!validateForm()) {
+        return;
+      }
+
+      // Get form values
+      const nama = document.getElementById("nama").value;
+      const whatsapp = document.getElementById("whatsapp").value;
+      const pekerjaan = document.getElementById("pekerjaan").value;
+      const tempatLahir = document.getElementById("tempatLahir").value;
+      const tanggalLahir = document.getElementById("tanggalLahir").value;
+      const alamat = document.getElementById("alamat").value;
+      const statusPasien = document.getElementById("statusPasien").value;
+      const jadwalBooking = document.getElementById("jadwalBooking").value;
+      const keluhan = document.getElementById("keluhan").value;
+      const pesan = document.getElementById("pesan").value || "Tidak ada pesan tambahan";
+
+      // Save to localStorage
+      try {
+        let reservations = JSON.parse(localStorage.getItem('drgPasriReservations') || '[]');
+        reservations.unshift({
+          id: Date.now().toString(),
+          timestamp: new Date().toISOString(),
+          nama, whatsapp, pekerjaan, tempatLahir, tanggalLahir, 
+          alamat, statusPasien, jadwalBooking, keluhan, pesan
+        });
+        localStorage.setItem('drgPasriReservations', JSON.stringify(reservations));
+      } catch (error) {
+        console.error('Failed to save reservation:', error);
+      }
+
+      // Format message for WhatsApp
+      const message = `Reservasi drg Pasri\n\n` +
+                     `Nama: ${nama}\n` +
+                     `No WhatsApp: ${whatsapp}\n` +
+                     `Pekerjaan: ${pekerjaan}\n` +
+                     `Tempat Lahir: ${tempatLahir}\n` +
+                     `Tanggal Lahir: ${tanggalLahir}\n` +
+                     `Alamat: ${alamat}\n` +
+                     `Status Pasien: ${statusPasien}\n` +
+                     `Jadwal Booking: ${jadwalBooking}\n` +
+                     `Keluhan/Layanan: ${keluhan}\n` +
+                     `Pesan Tambahan: ${pesan}\n\n` +
+                     `Terima kasih! Silakan konfirmasi reservasi.`;
+
+      // WhatsApp number
+      const WHATSAPP_NUMBER = "6283197242550";
+      
+      // Create WhatsApp URL
+      const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+      // Open WhatsApp in a new tab
+      try {
+        window.open(whatsappURL, '_blank');
+      } catch (error) {
+        console.error('Failed to open WhatsApp:', error);
+        alert('Gagal membuka WhatsApp. Silakan buka manual dan kirim pesan reservasi.');
+      }
+
+      // Show success modal
+      successModal.classList.remove("hidden");
+      successModal.classList.add("flex");
+      
+      // Reset form
+      this.reset();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+login.html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - drg Pasri</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes pulse-glow {
+      0% { box-shadow: 0 0 5px rgba(53, 59, 167, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(53, 59, 167, 0.8), 0 0 30px rgba(105, 138, 232, 0.4); }
+      100% { box-shadow: 0 0 5px rgba(53, 59, 167, 0.5); }
+    }
+    
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .pulse-glow {
+      animation: pulse-glow 2s infinite;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(to right, #698ae8, #353ba7, #2d4286);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-900 bg-gradient-to-br from-[#e1e7f6] via-[#f8f9fe] to-[#698ae8] min-h-screen flex flex-col">
+
+  <!-- Header dengan Pesan Login -->
+  <header class="w-full py-6 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="glass-effect rounded-2xl p-6 text-center floating">
+        <div class="flex items-center justify-center mb-3">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-r from-[#698ae8] to-[#353ba7] flex items-center justify-center pulse-glow">
+            <i class="fas fa-user-shield text-white text-xl"></i>
+          </div>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-bold gradient-text mb-2">login disini ya admin ganteng</h1>
+        <p class="text-gray-600 text-sm md:text-base">Portal khusus untuk mengelola reservasi pasien drg Pasri</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Konten Login -->
+  <main class="flex-grow flex items-center justify-center px-4 pb-8">
+    <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-105">
+      <div class="text-center">
+        <div class="flex items-center justify-center text-[#353ba7] font-bold text-2xl mb-2">
+          ✦ <span class="ml-2 text-gray-900">drg Pasri</span>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-700">Admin Panel</h2>
+        <p class="mt-2 text-sm text-gray-600">Masuk untuk mengelola reservasi</p>
+      </div>
+      
+      <form id="loginForm" class="mt-8 space-y-6">
+        <div class="space-y-4">
+          <div>
+            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-user text-gray-400"></i>
+              </div>
+              <input id="username" name="username" type="text" required 
+                class="pl-10 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-[#353ba7] focus:border-[#353ba7] sm:text-sm transition duration-200" 
+                placeholder="admin baik hati">
+            </div>
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-lock text-gray-400"></i>
+              </div>
+              <input id="password" name="password" type="password" required 
+                class="pl-10 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-[#353ba7] focus:border-[#353ba7] sm:text-sm transition duration-200" 
+                placeholder="••••••••">
+            </div>
+          </div>
+        </div>
+
+        <div id="error-message" class="hidden bg-red-50 border-l-4 border-red-500 p-4 text-red-700 rounded-md transform transition-all duration-300">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm">Username atau password salah!</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" id="loginBtn" 
+            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-[#698ae8] to-[#353ba7] hover:from-[#353ba7] hover:to-[#2d4286] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#353ba7] transition duration-300 transform hover:scale-105">
+            <span id="btnText">Masuk</span>
+            <div id="loadingSpinner" class="hidden ml-2">
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+          </button>
+        </div>
+      </form>
+      
+      <div class="mt-6 text-center">
+        <p class="text-xs text-gray-500">
+          <i class="fas fa-info-circle mr-1"></i>
+          Diperlukan otorisasi untuk mengakses panel admin
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('error-message');
+      const loginBtn = document.getElementById('loginBtn');
+      const btnText = document.getElementById('btnText');
+      const loadingSpinner = document.getElementById('loadingSpinner');
+
+      // Tampilkan loading
+      loginBtn.disabled = true;
+      btnText.textContent = 'Memproses...';
+      loadingSpinner.classList.remove('hidden');
+      errorMessage.classList.add('hidden');
+
+      // Simulasi delay untuk proses login
+      setTimeout(() => {
+        // Cek kredensial
+        if (username === 'admin baik hati' && password === 'adminimup') {
+          // Set flag login di localStorage
+          localStorage.setItem('adminLoggedIn', 'true');
+          // Redirect ke halaman admin
+          window.location.href = 'admin.html';
+        } else {
+          // Tampilkan pesan error
+          errorMessage.classList.remove('hidden');
+          // Reset button
+          loginBtn.disabled = false;
+          btnText.textContent = 'Masuk';
+          loadingSpinner.classList.add('hidden');
+        }
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

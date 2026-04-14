@@ -1,0 +1,246 @@
+/* --- VARIABEL DAN GLOBAL --- */
+:root {
+    --cream-color: #f5f2e8;
+    --dark-brown: #3d2c1d;
+    --light-brown: #8b6f47;
+    --gold-accent: #c9a961;
+    --font-heading: 'Cinzel', serif;
+    --font-body: 'Lora', serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--cream-color);
+    font-family: var(--font-body);
+    color: var(--dark-brown);
+    line-height: 1.7;
+}
+
+/* --- TYPOGRAFI --- */
+h1, h2 {
+    font-family: var(--font-heading);
+    color: var(--dark-brown);
+    text-align: center;
+}
+
+h1 { font-size: 3.5rem; }
+h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--light-brown);
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+a:hover {
+    color: var(--gold-accent);
+    border-bottom: 1px solid var(--gold-accent);
+}
+
+/* --- HEADER & NAVIGASI --- */
+.main-header {
+    background-color: rgba(61, 44, 29, 0.9);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.main-header .logo img {
+    filter: brightness(0) invert(1);
+}
+
+.main-header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.main-header nav a {
+    color: var(--cream-color);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    border-bottom: 2px solid transparent;
+}
+
+.main-header nav a:hover,
+.main-header nav a.active {
+    color: var(--gold-accent);
+    border-bottom-color: var(--gold-accent);
+}
+
+/* --- HALAMAN BERANDA --- */
+.hero {
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070'); /* Ganti dengan gambar kastil/gambar kerajaan */
+    background-size: cover;
+    background-position: center;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--cream-color);
+}
+
+.hero-content { max-width: 800px; }
+.hero-title { font-size: 4rem; margin-bottom: 0.5rem; color: #fff; text-shadow: 2px 2px 8px rgba(0,0,0,0.7); }
+.hero-author { font-size: 1.5rem; font-family: var(--font-body); margin-bottom: 1rem; }
+.hero-tagline { font-size: 1.2rem; margin-bottom: 2rem; font-style: italic; }
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 25px;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--light-brown);
+    color: var(--cream-color);
+}
+.btn-primary:hover {
+    background-color: var(--dark-brown);
+    border-color: var(--gold-accent);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--cream-color);
+    border-color: var(--cream-color);
+}
+.btn-secondary:hover {
+    background-color: var(--cream-color);
+    color: var(--dark-brown);
+}
+
+.intro-section {
+    padding: 4rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* --- HALAMAN DAFTAR BAB & BACA --- */
+.page-content, .reading-content {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: #fff;
+    border: 1px solid #e0d5c7;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+.chapter-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.chapter-list li {
+    padding: 1rem;
+    border-bottom: 1px dashed var(--light-brown);
+}
+
+.chapter-list li:last-child {
+    border-bottom: none;
+}
+
+.chapter-list a {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 500;
+    display: block;
+}
+
+/* --- HALAMAN BACA (KHUSUS) --- */
+.reading-content {
+    font-size: 1.1rem;
+    line-height: 1.9;
+}
+
+.chapter-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    font-family: var(--font-heading);
+    margin-bottom: 2rem;
+}
+
+.nav-link {
+    padding: 8px 15px;
+    border: 1px solid var(--light-brown);
+    border-radius: 5px;
+}
+.nav-link:hover {
+    background-color: var(--light-brown);
+    color: var(--cream-color);
+}
+
+.drop-cap {
+    float: left;
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    line-height: 4rem;
+    padding-right: 8px;
+    margin-top: -5px;
+    color: var(--light-brown);
+}
+
+/* --- ELEMEN DEKORATIF --- */
+.ornament-divider {
+    background-image: url('https://www.transparentpng.com/thumb/ornament/x6dA7T-ornament-png-transparent-image.png'); /* Ganti dengan gambar ornamen yang lebih sesuai */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 40px;
+    margin: 2rem 0;
+    opacity: 0.5;
+}
+
+/* --- FOOTER --- */
+.main-footer {
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+    background-color: var(--dark-brown);
+    color: var(--cream-color);
+    font-size: 0.9rem;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .main-header { flex-direction: column; gap: 1rem; }
+    .main-header nav ul { gap: 1rem; }
+    .hero-title { font-size: 2.5rem; }
+    .hero-author { font-size: 1.2rem; }
+    .hero-buttons { flex-direction: column; align-items: center; }
+    .chapter-nav { flex-direction: column; gap: 1rem; text-align: center; }
+    .drop-cap { font-size: 4rem; line-height: 3.5rem; }
+}
